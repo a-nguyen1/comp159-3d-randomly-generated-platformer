@@ -223,17 +223,5 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Animator.applyRootMotion = false;
 			}
 		}
-
-		// private void OnTriggerStay(Collider other)
-		// {
-		// 	if (other.CompareTag("Platform"))
-		// 	{
-		// 		var transform1 = other.transform;
-		// 		var position = transform1.position;
-		// 		Vector3 newPosition = new Vector3(position.x, position.y - 0.05f, position.z);
-		// 		position = newPosition;
-		// 		transform1.position = position;
-		// 	}
-		// }
 	}
 }

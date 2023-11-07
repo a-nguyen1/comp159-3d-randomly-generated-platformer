@@ -9,6 +9,7 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private Vector3 initialPosition;
     [SerializeField] private int numberOfPlatforms;
     [SerializeField] private float platformHorizontalOffset;
+    [SerializeField] private Vector2 horizontalLimit;
 
     private List<GameObject> platforms;
     // Start is called before the first frame update
@@ -18,26 +19,15 @@ public class ObjectSpawner : MonoBehaviour
         Destroy(start, 3); // destroy start platform after 3 seconds
         platforms = new List<GameObject>();
         Vector3 newPosition = initialPosition;
-        GameObject floor = Instantiate(platform, newPosition, Quaternion.identity);
-        platforms.Add(floor);
+        Instantiate(platform, newPosition, Quaternion.identity);
         for (int index = 0; index < numberOfPlatforms; index++)
         {
-            floor = Instantiate(platform, newPosition, Quaternion.identity);
+            Instantiate(platform, newPosition, Quaternion.identity);
             newPosition.x += initialPosition.x + Random.Range(-platformHorizontalOffset, platformHorizontalOffset);
-            newPosition.y = initialPosition.y;
             newPosition.z += initialPosition.z + Random.Range(-platformHorizontalOffset, platformHorizontalOffset);
-            platforms.Add(floor);
+            newPosition.x = Mathf.Clamp(newPosition.x, horizontalLimit.x, horizontalLimit.y);
+            newPosition.z = Mathf.Clamp(newPosition.z, horizontalLimit.x, horizontalLimit.y);
         }
-    }
-
-    public List<GameObject> GetPlatforms()
-    {
-        return platforms;
-    }
-    
-    public void SetPlatforms(List<GameObject> updatedPlatforms)
-    {
-        platforms = updatedPlatforms;
     }
 
     // Update is called once per frame

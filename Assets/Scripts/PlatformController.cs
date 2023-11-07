@@ -45,7 +45,7 @@ public class PlatformController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -55,6 +55,5 @@ public class PlatformController : MonoBehaviour
             position = newPosition;
             transform1.position = position;
         }
-        Debug.Log($"{other}");
     }
 }
