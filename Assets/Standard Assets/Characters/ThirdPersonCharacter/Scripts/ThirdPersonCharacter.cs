@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityStandardAssets.CrossPlatformInput;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
@@ -30,7 +31,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		Vector3 m_CapsuleCenter;
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
-
 
 		void Start()
 		{
@@ -224,16 +224,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			}
 		}
 
-		private void OnTriggerStay(Collider other)
-		{
-			if (other.CompareTag("Platform"))
-			{
-				var transform1 = other.transform;
-				var position = transform1.position;
-				Vector3 newPosition = new Vector3(position.x, position.y - 0.05f, position.z);
-				position = newPosition;
-				transform1.position = position;
-			}
-		}
+		// private void OnTriggerStay(Collider other)
+		// {
+		// 	if (other.CompareTag("Platform"))
+		// 	{
+		// 		var transform1 = other.transform;
+		// 		var position = transform1.position;
+		// 		Vector3 newPosition = new Vector3(position.x, position.y - 0.05f, position.z);
+		// 		position = newPosition;
+		// 		transform1.position = position;
+		// 	}
+		// }
 	}
 }

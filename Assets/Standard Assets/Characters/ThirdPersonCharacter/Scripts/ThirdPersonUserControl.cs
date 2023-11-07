@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
