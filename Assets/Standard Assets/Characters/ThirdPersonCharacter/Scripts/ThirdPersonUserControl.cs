@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -13,9 +15,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Vector3 m_Move;
         private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
 
+        private GameObject menu; // object with menu controller script
         
         private void Start()
         {
+            menu = GameObject.FindGameObjectWithTag("GameController");
             // get the transform of the main camera
             if (Camera.main != null)
             {
@@ -67,11 +71,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 	        if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 0.5f;
 #endif
 
-            // pass all parameters to the character control script
             if (m_Character.transform.position.y <= -100)
             {
-                Debug.Log("game over");
+                SceneManager.LoadScene("Scenes/GameOverScene");
             }
+            // pass all parameters to the character control script
             m_Character.Move(m_Move, crouch, m_Jump);
             m_Jump = false;
         }

@@ -11,12 +11,6 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("Scenes/GameScene");
     }
     
-    //Opens Game Over Scene
-    public void GameOver()
-    {
-        SceneManager.LoadScene("Scenes/GameOverScene");
-    }
-
     //Opens Controls Scene
     public void Controls()
     {
