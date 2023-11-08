@@ -72,7 +72,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             if (m_Character.transform.position.y <= -100)
             {
-                SceneManager.LoadScene("Scenes/GameOverScene");
+                SceneManager.LoadScene("GameOverScene");
             }
             // pass all parameters to the character control script
             m_Character.Move(m_Move, crouch, m_Jump);
