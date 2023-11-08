@@ -8,26 +8,66 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] GameObject startingPlatform;
     [SerializeField] private Vector3 initialPosition;
     [SerializeField] private int numberOfPlatforms;
-    [SerializeField] private float platformHorizontalOffset;
-    [SerializeField] private Vector2 horizontalLimit;
+    [SerializeField] private int platformHorizontalOffset;
 
-    private List<GameObject> platforms;
     // Start is called before the first frame update
     void Start()
     {
         GameObject start = Instantiate(startingPlatform, initialPosition, Quaternion.identity);
         Destroy(start, 3); // destroy start platform after 3 seconds
-        platforms = new List<GameObject>();
         Vector3 newPosition = initialPosition;
         Instantiate(platform, newPosition, Quaternion.identity);
+        HashSet<Vector2Int> locations = new HashSet<Vector2Int> { new Vector2Int((int)newPosition.x, (int)newPosition.z) };
+        StartCoroutine(AddPlatforms(locations));
+    }
+
+    private IEnumerator AddPlatforms(HashSet<Vector2Int> locations)
+    {
         for (int index = 0; index < numberOfPlatforms; index++)
         {
+            yield return new WaitForSeconds(1);
+            List<Vector2Int> newLocations = NextLocations(locations);
+            int ind = Random.Range(0, newLocations.Count);
+            var newPosition = new Vector3(newLocations[ind].x, initialPosition.y, newLocations[ind].y);
+            locations.Add(newLocations[ind]);
             Instantiate(platform, newPosition, Quaternion.identity);
-            newPosition.x += initialPosition.x + Random.Range(-platformHorizontalOffset, platformHorizontalOffset);
-            newPosition.z += initialPosition.z + Random.Range(-platformHorizontalOffset, platformHorizontalOffset);
-            newPosition.x = Mathf.Clamp(newPosition.x, horizontalLimit.x, horizontalLimit.y);
-            newPosition.z = Mathf.Clamp(newPosition.z, horizontalLimit.x, horizontalLimit.y);
         }
+    }
+
+    // return list of possible locations to spawn
+    private List<Vector2Int> NextLocations(HashSet<Vector2Int> occupied)
+    {
+        int offset = platformHorizontalOffset;
+        List<Vector2Int> list = new List<Vector2Int>();
+        foreach (var loc in occupied)
+        {
+            Vector2Int newLoc = new Vector2Int(loc.x + offset, loc.y);
+            if (AddNewLocation(occupied, newLoc))
+            {
+                list.Add(newLoc);
+            }
+            newLoc = new Vector2Int(loc.x - offset, loc.y);
+            if (AddNewLocation(occupied, newLoc))
+            {
+                list.Add(newLoc);
+            }
+            newLoc = new Vector2Int(loc.x, loc.y + offset);
+            if (AddNewLocation(occupied, newLoc))
+            {
+                list.Add(newLoc);
+            }
+            newLoc = new Vector2Int(loc.x, loc.y - offset);
+            if (AddNewLocation(occupied, newLoc))
+            {
+                list.Add(newLoc);
+            }
+        }
+        return list;
+    }
+
+    private static bool AddNewLocation(HashSet<Vector2Int> occupied, Vector2Int newLoc)
+    {
+        return !occupied.Contains(newLoc);
     }
 
     // Update is called once per frame
